@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-service
+  namespace: todo-list
+  labels:
+    app: todo-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-service
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 5
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: todo-service
+    spec:
+      hostAliases:
+        - ip: "192.168.1.67"
+          hostnames:
+            - "cob.cobden.net"
+      imagePullSecrets:
+        - name: docker-registry-secret
+      containers:
+        - name: todo-service
+          image: containers.chewed-k8s.net/todo-list/todo-service:latest
+          imagePullPolicy: Always
+          readinessProbe:
+            exec:
+              command:
+                - /bin/service
+                - health
+          ports:
+            - containerPort: 3000
+          env:
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: todo-service-secrets
+                  key: vault-token
+            - name: MONGO_TODO_COLLECTION
+              valueFrom:
+                secretKeyRef:
+                  name: todo-service-secrets
+                  key: mongo-todo-collection
+            - name: MONGO_DB
+              valueFrom:
+                secretKeyRef:
+                  name: todo-service-secrets
+                  key: mongo-db
+            - name: MONGO_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: todo-service-secrets
+                  key: mongo-host
+            - name: VAULT_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: todo-service-secrets
+                  key: vault-host
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-service
+  namespace: todo-list
+  labels:
+    app: todo-service
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app: todo-service
+
+

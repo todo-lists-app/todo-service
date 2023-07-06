@@ -36,6 +36,7 @@ spec:
               port: 80
           ports:
             - containerPort: 3000
+            - containerPort: 80
           env:
             - name: VAULT_TOKEN
               valueFrom:

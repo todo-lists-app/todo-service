@@ -19,9 +19,7 @@ type Mongo struct {
 	Database string `env:"MONGO_DB" envDefault:""`
 
 	Collections struct {
-		Account      string `env:"MONGO_ACCOUNT_COLLECTION" envDefault:""`
-		List         string `env:"MONGO_TODO_COLLECTION" envDefault:""`
-		Notification string `env:"MONGO_NOTIFICATION_COLLECTION" envDefault:""`
+		List string `env:"MONGO_TODO_COLLECTION" envDefault:""`
 	}
 	Vault struct {
 		Path       string `env:"MONGO_VAULT_PATH" envDefault:""`

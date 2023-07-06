@@ -20,7 +20,7 @@ type Mongo struct {
 
 	Collections struct {
 		Account      string `env:"MONGO_ACCOUNT_COLLECTION" envDefault:""`
-		List         string `env:"MONGO_LIST_COLLECTION" envDefault:""`
+		List         string `env:"MONGO_TODO_COLLECTION" envDefault:""`
 		Notification string `env:"MONGO_NOTIFICATION_COLLECTION" envDefault:""`
 	}
 	Vault struct {

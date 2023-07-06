@@ -1,6 +1,9 @@
 package config
 
-import "github.com/caarlos0/env/v8"
+import (
+	"github.com/bugfixes/go-bugfixes/logs"
+	"github.com/caarlos0/env/v8"
+)
 
 type Local struct {
 	KeepLocal   bool `env:"BUGFIXES_LOCAL_ONLY" envDefault:"false" json:"keep_local,omitempty"`
@@ -12,7 +15,7 @@ type Local struct {
 func BuildLocal(cfg *Config) error {
 	local := &Local{}
 	if err := env.Parse(local); err != nil {
-		return err
+		return logs.Errorf("unable to parse local config: %w", err)
 	}
 	cfg.Local = *local
 

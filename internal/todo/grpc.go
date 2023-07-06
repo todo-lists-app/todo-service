@@ -69,7 +69,7 @@ func (s *Server) Update(ctx context.Context, r *pb.TodoInjectRequest) (*pb.TodoR
 			Data:   "",
 			Iv:     "",
 			Status: pointerutil.StringPtr(err.Error()),
-		}, err
+		}, nil
 	}
 
 	return &pb.TodoRetrieveResponse{

@@ -32,7 +32,7 @@ func (s *Service) Start() error {
 	go startHTTP(s.Config, errChan)
 	go startGRPC(s.Config, errChan)
 
-	return nil
+	return <-errChan
 }
 
 func startGRPC(cfg *config.Config, errChan chan error) {

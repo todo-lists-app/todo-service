@@ -31,7 +31,7 @@ func (s *Server) Get(ctx context.Context, r *pb.TodoGetRequest) (*pb.TodoRetriev
 	}, nil
 }
 
-func (s *Server) Insert(ctx context.Context, r *pb.TodoInsertRequest) (*pb.TodoRetrieveResponse, error) {
+func (s *Server) Insert(ctx context.Context, r *pb.TodoInjectRequest) (*pb.TodoRetrieveResponse, error) {
 	t := NewTodoService(ctx, *s.Config, r.UserId)
 	list, err := t.GetTodoList()
 	if err != nil {
@@ -40,29 +40,29 @@ func (s *Server) Insert(ctx context.Context, r *pb.TodoInsertRequest) (*pb.TodoR
 			Data:   "",
 			Iv:     "",
 			Status: pointerutil.StringPtr(err.Error()),
-		}, err
-	}
-
-	// data is empty, create a new list
-	if list.Data != "" {
-		list, err := t.CreateTodoList(r.Data, r.Iv)
-		if err != nil {
-			return &pb.TodoRetrieveResponse{
-				UserId: r.UserId,
-				Data:   "",
-				Iv:     "",
-				Status: pointerutil.StringPtr(err.Error()),
-			}, err
-		}
-		return &pb.TodoRetrieveResponse{
-			UserId: r.UserId,
-			Data:   list.Data,
-			Iv:     list.IV,
 		}, nil
 	}
 
-	// data is not empty, update the list
-	list, err = t.UpdateTodoList(r.Data, r.Iv)
+	// data is empty, create a new list
+	list, err = t.CreateTodoList(r.Data, r.Iv)
+	if err != nil {
+		return &pb.TodoRetrieveResponse{
+			UserId: r.UserId,
+			Data:   "",
+			Iv:     "",
+			Status: pointerutil.StringPtr(err.Error()),
+		}, nil
+	}
+	return &pb.TodoRetrieveResponse{
+		UserId: r.UserId,
+		Data:   list.Data,
+		Iv:     list.IV,
+	}, nil
+}
+
+func (s *Server) Update(ctx context.Context, r *pb.TodoInjectRequest) (*pb.TodoRetrieveResponse, error) {
+	t := NewTodoService(ctx, *s.Config, r.UserId)
+	list, err := t.UpdateTodoList(r.Data, r.Iv)
 	if err != nil {
 		return &pb.TodoRetrieveResponse{
 			UserId: r.UserId,
@@ -74,7 +74,7 @@ func (s *Server) Insert(ctx context.Context, r *pb.TodoInsertRequest) (*pb.TodoR
 
 	return &pb.TodoRetrieveResponse{
 		UserId: r.UserId,
-		Data:   r.Data,
-		Iv:     r.Iv,
+		Data:   list.Data,
+		Iv:     list.IV,
 	}, nil
 }

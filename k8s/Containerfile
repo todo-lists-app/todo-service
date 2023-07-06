@@ -1,25 +1,48 @@
 # Build
-FROM golang:alpine3.15 as builder
+FROM golang:alpine3.15 AS builder
 
 RUN mkdir -p /home/builder
 WORKDIR /home/builder
 
+## Download dependencies
 COPY go.mod .
 COPY go.sum .
 RUN go mod download
 
-COPY . .
+## Copy files
+COPY ../ .
 ARG BUILD
 ARG VERSION
 ARG SERVICE_NAME
 
-RUN go build -ldflags "-w -s -X main.BuildVersion=${VERSION} -X main.BuildHash=${BUILD} -X main.ServiceName=${SERVICE_NAME}" -o ./bin/service -v ./cmd/service.go
-RUN cp ./bin/service
+RUN go build -ldflags "-w -s -X main.BuildVersion=${VERSION} -X main.BuildHash=${BUILD} -X main.ServiceName=${SERVICE_NAME}" -o ./bin/${SERVICE_NAME} -v ./cmd/${SERVICE_NAME}/main.go
+RUN cp ./bin/${SERVICE_NAME} /
 
 # Runner
-FROM scratch
-COPY --from=builder /home/builder/bin/service /bin/service
-EXPOSE 80 3000
-HEALTHCHECK --interval=5s --timeout=3s --retries=3 CMD ["/bin/service", "health"]
-CMD ["/bin/service", "start"]
+FROM alpine:3.15 AS Runner
+ARG SERVICE_NAME
 
+RUN apk update
+RUN apk upgrade
+RUN apk add ca-certificates && update-ca-certificates
+RUN apk add --update tzdata
+RUN rm -rf /var/cache/apk/*
+
+COPY --from=builder /${SERVICE_NAME} /home/
+
+## Set the timezone
+ENV TZ=Europe/London
+
+WORKDIR /home
+
+## Set the entrypoint
+RUN echo "#!/bin/bash" >> ./entrypoint.sh
+RUN echo "./${SERVICE_NAME}" >> ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT ["sh", "./entrypoint.sh"]
+
+## Healthcheck to keep system alive
+HEALTHCHECK --interval=5s --timeout=2s --retries=12 CMD curl --silent --fail localhost/probe || exit 1
+
+## Expose the main ports
+EXPOSE 80 3000

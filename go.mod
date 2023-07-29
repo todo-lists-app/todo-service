@@ -7,12 +7,12 @@ require (
 	github.com/caarlos0/env/v8 v8.0.0
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/go-chi/cors v1.2.1
-	github.com/hashicorp/vault/sdk v0.9.1
+	github.com/hashicorp/vault/sdk v0.9.2
 	github.com/keloran/go-healthcheck v1.2.1
 	github.com/keloran/vault-helper v0.4.0
 	github.com/todo-lists-app/protobufs v0.0.0-20230706200119-b8eb0b8aa429
 	go.mongodb.org/mongo-driver v1.12.0
-	google.golang.org/grpc v1.56.2
+	google.golang.org/grpc v1.57.0
 )
 
 require (
@@ -47,7 +47,7 @@ require (
 	golang.org/x/sys v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
-	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230525234030-28d5490b6b19 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 )

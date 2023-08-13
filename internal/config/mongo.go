@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/bugfixes/go-bugfixes/logs"
-	env "github.com/caarlos0/env/v8"
+	"github.com/caarlos0/env/v8"
 	vh "github.com/keloran/vault-helper"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -29,14 +29,14 @@ type Mongo struct {
 
 // BuildMongo builds the Mongo config
 func BuildMongo(c *Config) error {
-	mongo := &Mongo{}
+	mungo := &Mongo{}
 
-	if err := env.Parse(mongo); err != nil {
+	if err := env.Parse(mungo); err != nil {
 		return logs.Errorf("error parsing mongo: %v", err)
 	}
 
 	v := vh.NewVault(c.Vault.Address, c.Vault.Token)
-	if err := v.GetSecrets(mongo.Vault.Path); err != nil {
+	if err := v.GetSecrets(mungo.Vault.Path); err != nil {
 		return logs.Errorf("error getting mongo secrets: %v", err)
 	}
 
@@ -50,11 +50,11 @@ func BuildMongo(c *Config) error {
 		return logs.Errorf("error getting password: %v", err)
 	}
 
-	mongo.Vault.ExpireTime = time.Now().Add(time.Duration(v.LeaseDuration) * time.Second)
-	mongo.Password = password
-	mongo.Username = username
+	mungo.Vault.ExpireTime = time.Now().Add(time.Duration(v.LeaseDuration) * time.Second)
+	mungo.Password = password
+	mungo.Username = username
 
-	c.Mongo = *mongo
+	c.Mongo = *mungo
 
 	return nil
 }

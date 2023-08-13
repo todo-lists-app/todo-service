@@ -7,9 +7,8 @@ require (
 	github.com/caarlos0/env/v8 v8.0.0
 	github.com/go-chi/chi/v5 v5.0.10
 	github.com/go-chi/cors v1.2.1
-	github.com/hashicorp/vault/sdk v0.9.2
+	github.com/hashicorp/vault/sdk v0.9.0
 	github.com/keloran/go-healthcheck v1.2.1
-	github.com/keloran/vault-helper v0.4.0
 	github.com/todo-lists-app/protobufs v0.0.0-20230728215834-aaf52566b992
 	go.mongodb.org/mongo-driver v1.12.1
 	google.golang.org/grpc v1.57.0
@@ -50,5 +49,4 @@ require (
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230807174057-1744710a1577 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
-	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 )

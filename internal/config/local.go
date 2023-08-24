@@ -15,7 +15,7 @@ type Local struct {
 func BuildLocal(cfg *Config) error {
 	local := &Local{}
 	if err := env.Parse(local); err != nil {
-		return logs.Errorf("unable to parse local config: %w", err)
+		return logs.Errorf("unable to parse local config: %v", err)
 	}
 	cfg.Local = *local
 

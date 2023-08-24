@@ -43,7 +43,7 @@ spec:
                 secretKeyRef:
                   name: todo-service-secrets
                   key: vault-token
-            - name: MONGO_TODO_COLLECTION
+            - name: MONGO_COLLECTION_TODO
               valueFrom:
                 secretKeyRef:
                   name: todo-service-secrets

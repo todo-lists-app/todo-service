@@ -13,7 +13,7 @@ type Server struct {
 }
 
 func (s *Server) Get(ctx context.Context, r *pb.TodoGetRequest) (*pb.TodoRetrieveResponse, error) {
-	t := NewTodoService(ctx, *s.Config, r.UserId)
+	t := NewTodoService(ctx, *s.Config, r.UserId, &RealMongoOperations{Collection: s.Mongo.Collections["todo"], Database: s.Mongo.Database})
 	list, err := t.GetTodoList()
 	if err != nil {
 		return &pb.TodoRetrieveResponse{
@@ -32,7 +32,7 @@ func (s *Server) Get(ctx context.Context, r *pb.TodoGetRequest) (*pb.TodoRetriev
 }
 
 func (s *Server) Insert(ctx context.Context, r *pb.TodoInjectRequest) (*pb.TodoRetrieveResponse, error) {
-	t := NewTodoService(ctx, *s.Config, r.UserId)
+	t := NewTodoService(ctx, *s.Config, r.UserId, &RealMongoOperations{Collection: s.Mongo.Collections["todo"], Database: s.Mongo.Database})
 	list, err := t.GetTodoList()
 	if err != nil {
 		return &pb.TodoRetrieveResponse{
@@ -61,7 +61,7 @@ func (s *Server) Insert(ctx context.Context, r *pb.TodoInjectRequest) (*pb.TodoR
 }
 
 func (s *Server) Update(ctx context.Context, r *pb.TodoInjectRequest) (*pb.TodoRetrieveResponse, error) {
-	t := NewTodoService(ctx, *s.Config, r.UserId)
+	t := NewTodoService(ctx, *s.Config, r.UserId, &RealMongoOperations{Collection: s.Mongo.Collections["todo"], Database: s.Mongo.Database})
 	list, err := t.UpdateTodoList(r.Data, r.Iv)
 	if err != nil {
 		return &pb.TodoRetrieveResponse{

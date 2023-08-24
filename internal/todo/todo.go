@@ -1,6 +1,5 @@
 package todo
 
-import "C"
 import (
 	"context"
 	"errors"

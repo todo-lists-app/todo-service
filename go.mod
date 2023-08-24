@@ -1,6 +1,6 @@
 module github.com/todo-lists-app/todo-service
 
-go 1.20
+go 1.21
 
 require (
 	github.com/bugfixes/go-bugfixes v0.9.7
@@ -9,7 +9,7 @@ require (
 	github.com/go-chi/cors v1.2.1
 	github.com/hashicorp/vault/sdk v0.9.2
 	github.com/keloran/go-healthcheck v1.2.1
-	github.com/keloran/vault-helper v0.4.0
+	github.com/keloran/vault-helper v0.7.0
 	github.com/todo-lists-app/protobufs v0.0.0-20230813210309-8801c8db57fd
 	go.mongodb.org/mongo-driver v1.12.1
 	google.golang.org/grpc v1.57.0
@@ -33,6 +33,7 @@ require (
 	github.com/hashicorp/go-sockaddr v1.0.2 // indirect
 	github.com/hashicorp/hcl v1.0.1-vault-5 // indirect
 	github.com/hashicorp/vault/api v1.9.2 // indirect
+	github.com/keloran/go-config v0.3.0 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect

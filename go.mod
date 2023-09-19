@@ -11,7 +11,7 @@ require (
 	github.com/keloran/go-config v0.3.0
 	github.com/keloran/go-healthcheck v1.2.1
 	github.com/stretchr/testify v1.8.4
-	github.com/todo-lists-app/protobufs v0.1.0
+	github.com/todo-lists-app/protobufs v0.1.2
 	go.mongodb.org/mongo-driver v1.12.1
 	google.golang.org/grpc v1.57.0
 )
